@@ -4,6 +4,10 @@
 #
 # получаем температуру
 #
+<<<<<<< HEAD
+=======
+
+>>>>>>> b88a5140921bfec7bf279635372a414f1d65994c
 import os
 import glob
 import time
