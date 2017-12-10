@@ -25,8 +25,8 @@
 # python_version  :2.7
 # ==============================================================================
 
-"""Ivmech PID Controller is simple implementation of a Proportional-Integral-Derivative (PID) Controller in the Python Programming Language.
-More information about PID Controller: http://en.wikipedia.org/wiki/PID_controller
+"""Ivmech PID Controller - простая реализация контроллера пропорционального интеграла-производного (PID) на языке программирования Python.
+Дополнительная информация о PID-контроллере: http://en.wikipedia.org/wiki/PID_controller
 """
 import time
 
@@ -47,7 +47,7 @@ class PID:
         self.clear()
 
     def clear(self):
-        """Clears PID computations and coefficients"""
+        """Очищает вычисления и коэффициенты PID"""
         self.SetPoint = 0.0
 
         self.PTerm = 0.0
@@ -62,13 +62,10 @@ class PID:
         self.output = 0.0
 
     def update(self, feedback_value):
-        """Calculates PID value for given reference feedback
+        """Вычисляет значение PID для заданной эталонной обратной связи
 
         .. math::
             u(t) = K_p e(t) + K_i \int_{0}^{t} e(t)dt + K_d {de}/{dt}
-
-        .. figure:: images/pid_1.png
-           :align:   center
 
            Test PID with Kp=1.2, Ki=1, Kd=0.001 (test_pid.py)
 
@@ -92,38 +89,36 @@ class PID:
             if delta_time > 0:
                 self.DTerm = delta_error / delta_time
 
-            # Remember last time and last error for next calculation
+            # Помните последнюю и последнюю ошибку для следующего расчета
             self.last_time = self.current_time
             self.last_error = error
 
             self.output = self.PTerm + (self.Ki * self.ITerm) + (self.Kd * self.DTerm)
 
     def setKp(self, proportional_gain):
-        """Determines how aggressively the PID reacts to the current error with setting Proportional Gain"""
+        """Определяет, насколько агрессивно PID реагирует на текущую ошибку с установкой пропорционального усиления"""
         self.Kp = proportional_gain
 
     def setKi(self, integral_gain):
-        """Determines how aggressively the PID reacts to the current error with setting Integral Gain"""
+        """Определяет, насколько агрессивно PID реагирует на текущую ошибку с установкой Integral Gain"""
         self.Ki = integral_gain
 
     def setKd(self, derivative_gain):
-        """Determines how aggressively the PID reacts to the current error with setting Derivative Gain"""
+        """Определяет, насколько агрессивно PID реагирует на текущую ошибку с установкой Derivative Gain"""
         self.Kd = derivative_gain
 
     def setWindup(self, windup):
-        """Integral windup, also known as integrator windup or reset windup,
-        refers to the situation in a PID feedback controller where
-        a large change in setpoint occurs (say a positive change)
-        and the integral terms accumulates a significant error
-        during the rise (windup), thus overshooting and continuing
-        to increase as this accumulated error is unwound
-        (offset by errors in the other direction).
-        The specific problem is the excess overshooting.
+        """Интегральная ветровая линия, также известная как ветвление интегратора или сброс, 
+        ссылается на ситуацию в контроллере обратной связи с ПИД-регулятором, где происходит значительное 
+        изменение заданного значения (скажем, положительное изменение), а интегральные члены накапливают 
+        значительную ошибку во время подъема (выключения), таким образом, превышение и продолжает увеличиваться 
+        по мере того, как эта накопленная ошибка разматывается (компенсируется ошибками в другом направлении).
+        Конкретной проблемой является избыточное превышение.
         """
         self.windup_guard = windup
 
     def setSampleTime(self, sample_time):
-        """PID that should be updated at a regular interval.
-        Based on a pre-determined sampe time, the PID decides if it should compute or return immediately.
+        """PID, который должен обновляться с регулярным интервалом. Основываясь на заранее определенном времени времени,
+        ПИД-регулятор решает, должен ли он немедленно вычислить или вернуть.
         """
         self.sample_time = sample_time
